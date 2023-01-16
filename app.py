@@ -8,7 +8,8 @@ DIR=files/good_output/good/ flask run
 """
 
 app = Flask(__name__)
-root = os.path.join(os.path.dirname(os.path.abspath(__file__)), '_site')
+#root = os.path.join(os.path.dirname(os.path.abspath(__file__)), '_site')
+root = os.path.join(os.getcwd(), '_site')
 root = os.environ.get('DIR', root)
 
 @app.route("/")
