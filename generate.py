@@ -8,31 +8,34 @@ import github
 import time
 #import datetime
 
-CACHE_PATH = 'cache'
-os.makedirs(CACHE_PATH, exist_ok=True)
-os.system("ls -l")
-print(os.getcwd())
-root = os.path.abspath(__file__)
-print(root)
+#os.system("ls -l")
+data_dir = pathlib.Path.cwd()
+code_dir = pathlib.Path(__file__).parent
+cache_dir = pathlib.Path('cache')
+outdir = site_dir = data_dir.joinpath("_site")
+prod = os.environ.get('GITHUB_ACTIONS')
+
+#print(data_dir)
+#print(code_dir)
 
 class JsonError(Exception):
     pass
 
 def read_course_json():
-    with pathlib.Path(__file__).parent.joinpath('course.json').open() as fh:
+    with data_dir.joinpath('course.json').open() as fh:
         return json.load(fh)
 
 def load_cache(name):
-    path = os.path.join(CACHE_PATH, f'{name}.json')
+    path = cache_dir.joinpath(f'{name}.json')
     cache = {}
-    if os.path.exists(path):
-        with open(path) as fh:
+    if path.exists():
+        with path.open() as fh:
             cache = json.load(fh)
     return cache
 
 def save_cache(name, cache):
-    path = os.path.join(CACHE_PATH, f'{name}.json')
-    with open(path, 'w') as fh:
+    path = cache_dir.joinpath(f'{name}.json')
+    with path.open('w') as fh:
         json.dump(cache, fh)
 
 def update_devto_posts(people):
@@ -79,7 +82,7 @@ def read_json_files(folder):
            raise JsonError("file does not end with .json")
         if filename != filename.lower():
             raise Exception(f"filename {filename} should be all lower-case")
-        with open(os.path.join(folder, filename)) as fh:
+        with folder.joinpath(filename).open() as fh:
             person = json.load(fh)
 
         if 'github' not in person:
@@ -120,18 +123,19 @@ def collect_posts(people):
     return posts
 
 def main():
+
     mentors = read_json_files('mentors')
     participants = read_json_files('participants')
     course = read_course_json()
 
-    prod = os.environ.get('GITHUB_ACTIONS')
-    outdir = "_site"
+    cache_dir.mkdir(exist_ok=True)
     if not prod:
-        outdir = os.path.join(outdir, course['id'])
-    os.makedirs(outdir, exist_ok=True)
-    os.makedirs(os.path.join(outdir, "p"), exist_ok=True)
+        outdir = outdir.joinpath(course['id'])
+
+    outdir.mkdir(exist_ok=True)
+    outdir.joinpath("p").mkdir(exist_ok=True)
     if not prod:
-        with open(os.path.join('_site', 'index.html'), 'w') as fh:
+        with site_dir.joinpath('index.html').open('w') as fh:
             fh.write(f'<a href="{course["id"]}/">{course["id"]}</a>')
 
     update_devto_posts(mentors)
@@ -144,7 +148,7 @@ def main():
     participants.sort(key=lambda person: person['name'])
 
     for person in mentors + participants:
-        render('person.html', os.path.join(outdir, 'p', f'{person["github"].lower()}.html'),
+        render('person.html', outdir.joinpath('p', f'{person["github"].lower()}.html'),
             title = person['name'],
             mentors = mentors,
             participants = participants,
@@ -152,13 +156,13 @@ def main():
             person = person,
         )
 
-    render('index.html', os.path.join(outdir, 'index.html'),
+    render('index.html', outdir.joinpath('index.html'),
         mentors = mentors,
         participants = participants,
         course = course,
         title = course['title'],
     )
-    render('articles.html', os.path.join(outdir, 'articles.html'),
+    render('articles.html', outdir.joinpath('articles.html'),
         mentors = mentors,
         participants = participants,
         articles = posts,
@@ -166,7 +170,7 @@ def main():
         title = 'Articles',
     )
 
-    render('about.html', os.path.join(outdir, 'about.html'),
+    render('about.html', outdir.joinpath('about.html'),
         mentors = mentors,
         participants = participants,
         course = course,
