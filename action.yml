@@ -1,0 +1,4 @@
+name: 'Generate site for OSDC course'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
