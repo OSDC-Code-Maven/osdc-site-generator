@@ -8,7 +8,7 @@ import requests
 import forem
 import github
 import time
-#import datetime
+import datetime
 
 #os.system("ls -l")
 data_dir = pathlib.Path.cwd()
@@ -16,6 +16,7 @@ code_dir = pathlib.Path(__file__).parent
 cache_dir = data_dir.joinpath('cache')
 print(f"cache_dir: {cache_dir}")
 prod = os.environ.get('GITHUB_ACTIONS')
+now = datetime.datetime.utcnow().replace(microsecond=0)
 
 #print(data_dir)
 #print(code_dir)
@@ -182,6 +183,7 @@ def main():
         participants = participants,
         course = course,
         title = 'About',
+        now = now,
     )
 
 
