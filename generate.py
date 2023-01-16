@@ -10,6 +10,10 @@ import time
 
 CACHE_PATH = 'cache'
 os.makedirs(CACHE_PATH, exist_ok=True)
+os.system("ls -l")
+print(os.getcwd())
+root = os.path.abspath(__file__)
+print(root)
 
 class JsonError(Exception):
     pass
