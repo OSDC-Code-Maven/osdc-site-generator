@@ -23,6 +23,7 @@ def test_json():
             if 'posts' in person:
                 assert person['posts'].__class__.__name__ == 'list'
                 for post in person['posts']:
+                    assert post['url'].startswith('https://')
                     if post['url'].startswith('https://dev.to/'):
                         assert list(post.keys()) == ['url']
                     else:
