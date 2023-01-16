@@ -12,7 +12,6 @@ import time
 data_dir = pathlib.Path.cwd()
 code_dir = pathlib.Path(__file__).parent
 cache_dir = pathlib.Path('cache')
-outdir = site_dir = data_dir.joinpath("_site")
 prod = os.environ.get('GITHUB_ACTIONS')
 
 #print(data_dir)
@@ -123,17 +122,20 @@ def collect_posts(people):
     return posts
 
 def main():
+    print("Starting to generate site")
 
-    mentors = read_json_files('mentors')
-    participants = read_json_files('participants')
+    mentors = read_json_files(data_dir.joinpath('mentors'))
+    participants = read_json_files(data_dir.joinpath('participants'))
     course = read_course_json()
+
+    out_dir = site_dir = data_dir.joinpath("_site")
 
     cache_dir.mkdir(exist_ok=True)
     if not prod:
-        outdir = outdir.joinpath(course['id'])
+        out_dir = out_dir.joinpath(course['id'])
 
-    outdir.mkdir(exist_ok=True)
-    outdir.joinpath("p").mkdir(exist_ok=True)
+    out_dir.mkdir(exist_ok=True)
+    out_dir.joinpath("p").mkdir(exist_ok=True)
     if not prod:
         with site_dir.joinpath('index.html').open('w') as fh:
             fh.write(f'<a href="{course["id"]}/">{course["id"]}</a>')
@@ -148,7 +150,7 @@ def main():
     participants.sort(key=lambda person: person['name'])
 
     for person in mentors + participants:
-        render('person.html', outdir.joinpath('p', f'{person["github"].lower()}.html'),
+        render('person.html', out_dir.joinpath('p', f'{person["github"].lower()}.html'),
             title = person['name'],
             mentors = mentors,
             participants = participants,
@@ -156,13 +158,13 @@ def main():
             person = person,
         )
 
-    render('index.html', outdir.joinpath('index.html'),
+    render('index.html', out_dir.joinpath('index.html'),
         mentors = mentors,
         participants = participants,
         course = course,
         title = course['title'],
     )
-    render('articles.html', outdir.joinpath('articles.html'),
+    render('articles.html', out_dir.joinpath('articles.html'),
         mentors = mentors,
         participants = participants,
         articles = posts,
@@ -170,7 +172,7 @@ def main():
         title = 'Articles',
     )
 
-    render('about.html', outdir.joinpath('about.html'),
+    render('about.html', out_dir.joinpath('about.html'),
         mentors = mentors,
         participants = participants,
         course = course,
@@ -178,7 +180,7 @@ def main():
     )
 
 
-#if __name__ == "__main__":
-#    main()
+if __name__ == "__main__":
+    main()
 
 
