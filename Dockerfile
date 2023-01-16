@@ -4,5 +4,5 @@ WORKDIR /opt
 #RUN pip install -r requirements.txt
 COPY entrypoint.sh /opt/entrypoint.sh
 #ENTRYPOINT ["python", "generate.py"]
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["/opt/entrypoint.sh"]
 
