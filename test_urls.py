@@ -1,14 +1,17 @@
+import pathlib
+
 from generate import read_json_files
 from generate import check_github_acc_for_participant
 
 GITHUB_URL: str = "https://github.com/"
 GITLAB_URL: str = "https://gitlab.com/"
 LINKEDIN_URL: str = "https://www.linkedin.com/in/"
+data_dir = pathlib.Path.cwd()
 
 
 def test_urls():
     for folder in ['mentors', 'participants']:
-        people = read_json_files(folder)
+        people = read_json_files(data_dir.joinpath(folder))
         for person in people:
             assert check_github_acc_for_participant(GITHUB_URL + person['github']), f"Checking {GITHUB_URL + person['github']}"
             if 'gitlab' in person:

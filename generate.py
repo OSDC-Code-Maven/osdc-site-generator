@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import json
 import os
 import pathlib
@@ -11,7 +13,8 @@ import time
 #os.system("ls -l")
 data_dir = pathlib.Path.cwd()
 code_dir = pathlib.Path(__file__).parent
-cache_dir = pathlib.Path('cache')
+cache_dir = data_dir.joinpath('cache')
+print(f"cache_dir: {cache_dir}")
 prod = os.environ.get('GITHUB_ACTIONS')
 
 #print(data_dir)
@@ -26,6 +29,7 @@ def read_course_json():
 
 def load_cache(name):
     path = cache_dir.joinpath(f'{name}.json')
+    print(f"load_cache({path})")
     cache = {}
     if path.exists():
         with path.open() as fh:
@@ -129,12 +133,13 @@ def main():
     course = read_course_json()
 
     out_dir = site_dir = data_dir.joinpath("_site")
+    out_dir.mkdir(exist_ok=True)
 
     cache_dir.mkdir(exist_ok=True)
     if not prod:
         out_dir = out_dir.joinpath(course['id'])
+        out_dir.mkdir(exist_ok=True)
 
-    out_dir.mkdir(exist_ok=True)
     out_dir.joinpath("p").mkdir(exist_ok=True)
     if not prod:
         with site_dir.joinpath('index.html').open('w') as fh:

@@ -1,14 +1,16 @@
 import re
+import pathlib
 
 from generate import read_json_files
 
 
 VALID_FIELDS = ['name', 'linkedin', 'github', 'gitlab', 'devto', 'posts']
 REQURED_FIELD = ['name', 'github']
+data_dir = pathlib.Path.cwd()
 
 def test_json():
     for folder in ['mentors', 'participants']:
-        people = read_json_files(folder)
+        people = read_json_files(data_dir.joinpath(folder))
         for person in people:
             for field in person.keys():
                 assert field == field.lower()
