@@ -1,6 +1,5 @@
 FROM python:3.11
-WORKDIR /opt
-COPY . .
+COPY . /opt/
 RUN pip install -r requirements.txt
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["/opt/entrypoint.sh"]
 
