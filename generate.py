@@ -111,16 +111,14 @@ def collect_posts(people):
         if 'posts' in person:
             for post in person['posts']:
                 if post['details']:
-                    post['details']['author'] = person['name']
-                    post['details']['author_github'] = person['github']
+                    post['details']['author'] = person
                     posts.append(post['details'])
                 else:
                     posts.append({
                         'url': post['url'],
                         'title': post['title'],
                         'description': '',
-                        'author': person['name'],
-                        'author_github': person['github'],
+                        'author': person,
                         'published_at': post['published_at'],
                     })
     posts.sort(key=lambda post: post['published_at'], reverse=True)

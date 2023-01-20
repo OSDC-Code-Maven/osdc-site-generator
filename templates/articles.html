@@ -4,7 +4,8 @@
 
 {% for article in articles %}
    <div class="box article">
-        <a href="{{article.url}}">{{article.title}}</a> by <a href="p/{{article.author_github.lower()}}">{{article.author}}</a><br>
+        <a href="p/{{article.author.github.lower()}}"><img  width="60px" src="{{article.author.gh.avatar_url}}" title="{{article.author.name}}" alt="{{article.author.name}}"></a>
+        <a href="{{article.url}}">{{article.title}}</a> by <a href="p/{{article.author.github.lower()}}">{{article.author.name}}</a><br>
         {{article.description}}<br>
         {{article.published_at}}<br>
    </div>
