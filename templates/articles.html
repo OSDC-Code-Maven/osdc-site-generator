@@ -3,12 +3,16 @@
 <h1 class="title">{{title}}</h1>
 
 {% for article in articles %}
-   <div class="box article">
+  <div class="columns is-mobile is-centered is-vcentered box article">
+    <div class="column is-1">
         <a href="p/{{article.author.github.lower()}}"><img  width="60px" src="{{article.author.gh.avatar_url}}" title="{{article.author.name}}" alt="{{article.author.name}}"></a>
+    </div>
+    <div class="column">
         <a href="{{article.url}}">{{article.title}}</a> by <a href="p/{{article.author.github.lower()}}">{{article.author.name}}</a><br>
         {{article.description}}<br>
         {{article.published_at}}<br>
-   </div>
+    </div>
+  </div>
 {% endfor %}
 
 {% include 'footer.html' %}
