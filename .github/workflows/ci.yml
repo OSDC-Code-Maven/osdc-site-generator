@@ -19,5 +19,5 @@ jobs:
       run: docker build -t mydocker .
 
     - name: Run Docker
-      run: docker run -rm mydocker
+      run: docker run -w /data -v$(pwd)/test1:/data  mydocker
 
