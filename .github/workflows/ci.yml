@@ -8,15 +8,15 @@ on:
   workflow_dispatch:
 
 jobs:
-  generate:
+  test:
     runs-on: ubuntu-latest
-    name: Generate HTML
+    name: Test HTML generator
 
     steps:
     - uses: actions/checkout@v3
 
     - name: Build Docker
-      run: docker -t mydocker .
+      run: docker build -t mydocker .
 
     - name: Run Docker
       run: docker run -rm mydocker
