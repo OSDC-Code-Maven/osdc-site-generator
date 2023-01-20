@@ -21,3 +21,8 @@ jobs:
     - name: Run Docker
       run: docker run -w /data -v$(pwd)/test1:/data  mydocker
 
+    - name: install requirements
+      run: pip install pytest
+
+    - name: Verify output
+      run: pytest test_generator.py
