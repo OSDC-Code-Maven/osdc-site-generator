@@ -2,14 +2,20 @@
 
 <h1 class="title">{{title}}</h1>
 
-
-GitHub: <a href="https://github.com/{{ person['github'] }}">{{ person['github'] }}</a><br>
-{% if person['gitlab'] %}
-    GitLab: <a href="https://gitlab.com/{{ person['gitlab'] }}">{{ person['gitlab'] }}</a><br>
-{% endif %}
-{% if person['linkedin'] %}
-    LinkedIn <a href="https://linkedin.com/in/{{ person['linkedin'] }}">{{ person['name'] }}</a><br>
-{% endif %}
+  <div class="columns is-mobile is-centered is-vcentered box article">
+    <div class="column is-3">
+       <img  width="280px" src="{{person.gh.avatar_url}}" title="{{person.name}}" alt="{{person.name}}">
+    </div>
+    <div class="column">
+      GitHub: <a href="https://github.com/{{ person['github'] }}">{{ person['github'] }}</a><br>
+      {% if person['gitlab'] %}
+          GitLab: <a href="https://gitlab.com/{{ person['gitlab'] }}">{{ person['gitlab'] }}</a><br>
+      {% endif %}
+      {% if person['linkedin'] %}
+          LinkedIn <a href="https://linkedin.com/in/{{ person['linkedin'] }}">{{ person['name'] }}</a><br>
+      {% endif %}
+    </div>
+  </div>
 
 <h2 class="title">Articles</h2>
 {% if person['posts'] %}
