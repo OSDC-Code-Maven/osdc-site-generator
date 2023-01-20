@@ -15,12 +15,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Build Docker
-      run: docker build -t mydocker .
-
-    - name: Run Docker
-      run: docker run -w /data -v$(pwd)/test1:/data  mydocker
-
     - name: install requirements
       run: pip install pytest
 
