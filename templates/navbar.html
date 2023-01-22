@@ -40,6 +40,31 @@
         </div>
       </div>
 
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          Pages
+        </a>
+
+        <div class="navbar-dropdown">
+          {% for person in participants %}
+            {% if person.github_page %}
+              <a class="navbar-item" href="https://{{ person.github }}.github.io/">
+               {{ person.name }}
+              </a>
+            {% endif %}
+          {% endfor %}
+          <hr class="navbar-divider">
+          {% for person in mentors %}
+            {% if person.github_page %}
+              <a class="navbar-item" href="https://{{ person.github }}.github.io/">
+                {{ person.name }}
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+
+
       <a class="navbar-item" href="/{{course.id}}/about">
         About
       </a>
