@@ -8,6 +8,9 @@
     </div>
     <div class="column">
       GitHub: <a href="https://github.com/{{ person['github'] }}">{{ person['github'] }}</a><br>
+      {% if person['github_page'] %}
+         GitHub page of <a href="https://{{ person['github'] }}.github.io/">{{ person['name'] }}</a><br>
+      {% endif %}
       {% if person['gitlab'] %}
           GitLab: <a href="https://gitlab.com/{{ person['gitlab'] }}">{{ person['gitlab'] }}</a><br>
       {% endif %}

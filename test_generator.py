@@ -28,3 +28,8 @@ def test_one(name):
     with pages.joinpath('articles.html').open() as fh:
         html = fh.read()
     assert '<a href="https://dev.to/szabgab/open-source-development-courses-5d4b">Open Source Development Courses</a> by <a href="p/szabgab">Gabor Szabo</a><br>' in html
+
+
+    with pages.joinpath('p/szabgab.html').open() as fh:
+        html = fh.read()
+    assert 'GitHub page of <a href="https://Szabgab.github.io/">Gabor Szabo</a><br>' in html
