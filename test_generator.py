@@ -8,7 +8,8 @@ import pytest
 def generate(name):
     image = f"osdc-test-{str(time.time())}"
     os.system(f'docker build -t {image} .')
-    os.system(f'docker run --rm -w /data -v{os.getcwd()}/{name}:/data  {image}')
+    token = os.environ.get('MY_GITHUB_TOKEN')
+    os.system(f'docker run --rm -w /data --env MY_GITHUB_TOKEN={token} -v{os.getcwd()}/{name}:/data  {image}')
     yield
     os.system(f'docker rmi {image}')
 
