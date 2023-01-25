@@ -1,3 +1,4 @@
+import os
 import requests
 import sys
 from pprint import pprint
@@ -5,9 +6,18 @@ import logging
 
 
 def get_user_info(username):
+    token = os.environ.get('MY_GITHUB_TOKEN')
+    if not token:
+        exit('MY_GITHUB_TOKEN is missing')
+    headers = {
+        'Accept': 'application/vnd.github+json',
+        'Authorization': f'Bearer {token}',
+        'X-GitHub-Api-Version': '2022-11-28',
+    }
+
     url = f"https://api.github.com/users/{username}"
     logging.info(url)
-    user_data = requests.get(url).json()
+    user_data = requests.get(url, headers=headers).json()
     logging.info(user_data)
     return user_data
 
