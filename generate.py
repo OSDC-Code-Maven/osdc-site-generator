@@ -9,12 +9,13 @@ import forem
 import github
 import time
 import datetime
+import logging
 
-#os.system("ls -l")
+logging.basicConfig(level = logging.INFO)
 data_dir = pathlib.Path.cwd()
 code_dir = pathlib.Path(__file__).parent
 cache_dir = data_dir.joinpath('cache')
-print(f"cache_dir: {cache_dir}")
+logging.info(f"cache_dir: {cache_dir}")
 prod = os.environ.get('GITHUB_ACTIONS')
 now = datetime.datetime.utcnow().replace(microsecond=0)
 
@@ -30,7 +31,7 @@ def read_course_json():
 
 def load_cache(name):
     path = cache_dir.joinpath(f'{name}.json')
-    print(f"load_cache({path})")
+    logging.info(f"load_cache({path})")
     cache = {}
     if path.exists():
         with path.open() as fh:
@@ -99,7 +100,7 @@ def read_json_files(folder):
     return people
 
 def check_github_acc_for_participant(url: str) -> bool:
-    print(url)
+    loggin.info(url)
     # params: URL of the participant for github.
     headers = {'Accept-Encoding': 'gzip, deflate'}
     r = requests.head(url, headers=headers)
@@ -125,7 +126,7 @@ def collect_posts(people):
     return posts
 
 def main():
-    print("Starting to generate site")
+    logging.info("Starting to generate site")
 
     mentors = read_json_files(data_dir.joinpath('mentors'))
     participants = read_json_files(data_dir.joinpath('participants'))
