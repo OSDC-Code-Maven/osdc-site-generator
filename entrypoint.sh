@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -le
+set -ex
 
 root=$(dirname $0)
 printenv | sort
@@ -8,7 +8,8 @@ printenv | sort
 
 pytest -svx $root/test_json.py
 # pytest -svx $root/test_urls.py
-if [ "$GITHUB_ACTOR" == "" ] || [ "$GITHUB_ACTOR" == "szabgab" ];
+# if [ "$GITHUB_ACTOR" == "" ] || [ "$GITHUB_ACTOR" == "szabgab" ];
+if [ "$GITHUB_EVENT_NAME" != "pull_request" ];
 then
     echo "run $root/generate.py"
     python $root/generate.py
