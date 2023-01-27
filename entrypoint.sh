@@ -8,7 +8,7 @@ printenv | sort
 
 pytest -svx $root/test_json.py
 # pytest -svx $root/test_urls.py
-if [ "$GITHUB_ACTOR" == "" ] || [ "$GITHUB_ACTOR" == "osdc-code-maven" ];
+if [ "$GITHUB_ACTOR" == "" ] || [ "$GITHUB_ACTOR" == "szabgab" ];
 then
     echo "run $root/generate.py"
     python $root/generate.py
