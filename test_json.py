@@ -4,7 +4,7 @@ import pathlib
 from generate import read_json_files
 
 
-VALID_FIELDS = ['name', 'linkedin', 'github', 'gitlab', 'devto', 'posts', 'github_page']
+VALID_FIELDS = ['name', 'linkedin', 'github', 'gitlab', 'devto', 'posts', 'github_page', 'projects']
 REQURED_FIELD = ['name', 'github']
 data_dir = pathlib.Path.cwd()
 
