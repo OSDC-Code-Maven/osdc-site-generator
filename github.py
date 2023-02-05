@@ -8,7 +8,8 @@ import logging
 def get_user_info(username):
     token = os.environ.get('MY_GITHUB_TOKEN')
     if not token:
-        exit('MY_GITHUB_TOKEN is missing')
+        logging.error('MY_GITHUB_TOKEN is missing')
+        exit(1)
     headers = {
         'Accept': 'application/vnd.github+json',
         'Authorization': f'Bearer {token}',
