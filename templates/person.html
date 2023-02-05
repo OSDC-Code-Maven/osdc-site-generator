@@ -24,7 +24,7 @@
 {% if person['posts'] %}
   {% for post in person['posts'] %}
     <div class="is-mobile box article">
-      <div><a href="{{post['url']}}">{{post['details']['title'] or post['title']}}</a></div>
+      <div><a href="{{post['url']}}" target="_BLANK">{{post['details']['title'] or post['title']}}</a></div>
       <div>{{post['details']['description']}}</div>
       <div>{{post['details']['published_at']}}</div>
     </div>
