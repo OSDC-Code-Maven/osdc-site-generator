@@ -31,4 +31,16 @@
   {% endfor %}
 {% endif %}
 
+{% if course.projects %}
+  {% if person['projects'] %}
+    <h2 class="title">Projects</h2>
+    {% for project in person['projects'] %}
+      <div class="is-mobile box article">
+        <a href="{{project.url}}">{{project.name}}</a>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endif %}
+
+
 {% include 'incl/footer.html' %}

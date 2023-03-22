@@ -61,10 +61,11 @@ def update_devto_posts(people):
 
 
 def check_projects(people):
-    projects = []
+    all_projects = []
     for person in people:
         if 'projects' not in person:
             continue
+        projects = []
         for url in person['projects']:
             url_type, name = check_project(url)
             if not url_type:
@@ -75,7 +76,9 @@ def check_projects(people):
                 "url": url,
                 "name": name,
             })
-    return projects
+        person['projects'] = projects
+        all_projects.extend(projects)
+    return all_projects
 
 def check_project(url):
     match = re.search('^https://github.com/([^/]+)/([^/]+)$', url)
