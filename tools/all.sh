@@ -3,7 +3,7 @@
 # A development helper script to run the generate code on all the courses listed here
 # TODO maybe we could create the list of course automatically
 
-for name in osdc-2023-01-perl osdc-2023-01-public osdc-2023-03-azrieli
+for name in osdc-skeleton osdc-2023-01-perl osdc-2023-01-public osdc-2023-03-azrieli
 do
     echo "======"
     echo $name
