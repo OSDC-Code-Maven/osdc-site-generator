@@ -167,20 +167,8 @@ def main():
 
     mentors = read_json_files(data_dir.joinpath('mentors'))
     participants = read_json_files(data_dir.joinpath('participants'))
-    course = read_course_json()
-
-    out_dir = site_dir = data_dir.joinpath("_site")
-    out_dir.mkdir(exist_ok=True)
 
     cache_dir.mkdir(exist_ok=True)
-    if not prod:
-        out_dir = out_dir.joinpath(course['id'])
-        out_dir.mkdir(exist_ok=True)
-
-    out_dir.joinpath("p").mkdir(exist_ok=True)
-    if not prod:
-        with site_dir.joinpath('index.html').open('w') as fh:
-            fh.write(f'<a href="{course["id"]}/">{course["id"]}</a>')
 
     update_devto_posts(mentors)
     update_devto_posts(participants)
@@ -193,6 +181,26 @@ def main():
     posts = collect_posts(mentors + participants)
 
     participants.sort(key=lambda person: person['name'])
+
+    generate_html(mentors, participants, posts, projects)
+
+
+def generate_html(mentors, participants, posts, projects):
+    course = read_course_json()
+
+    out_dir = site_dir = data_dir.joinpath("_site")
+    out_dir.mkdir(exist_ok=True)
+
+    if not prod:
+        out_dir = out_dir.joinpath(course['id'])
+        out_dir.mkdir(exist_ok=True)
+
+    out_dir.joinpath("p").mkdir(exist_ok=True)
+    if not prod:
+        with site_dir.joinpath('index.html').open('w') as fh:
+            fh.write(f'<a href="{course["id"]}/">{course["id"]}</a>')
+
+
 
     for person in mentors + participants:
         render('person.html', out_dir.joinpath('p', f'{person["github"].lower()}.html'),
