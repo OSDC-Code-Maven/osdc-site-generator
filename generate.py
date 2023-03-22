@@ -10,6 +10,7 @@ import github
 import time
 import datetime
 import logging
+import re
 
 logging.basicConfig(level = logging.INFO)
 data_dir = pathlib.Path.cwd()
@@ -59,6 +60,30 @@ def update_devto_posts(people):
     save_cache('forem', cache)
 
 
+def check_projects(people):
+    for person in people:
+        if 'projects' not in person:
+            continue
+        for url in person['projects']:
+            url_type = check_project(url)
+            if not url_type:
+                logging.error(f"Invalid project '{url}' by {person['name']} github='{person['github']}'")
+                exit(f"Invalid project '{url}' by {person['name']} github='{person['github']}'")
+
+def check_project(url):
+    match = re.search('^https://github.com/([^/]+)$', url)
+    if match:
+        return 'github_organization'
+
+    match = re.search('^https://github.com/([^/]+)/([^/]+)$', url)
+    if match:
+        return 'github_repo'
+
+    match = re.search('^https://foss.heptapod.net/([^/]+)/([^/]+)$', url)
+    if match:
+        return 'heptapod_repo'
+
+
 def update_github_data(people):
     cache = load_cache('github_people')
     for person in people:
@@ -100,7 +125,7 @@ def read_json_files(folder):
     return people
 
 def check_github_acc_for_participant(url: str) -> bool:
-    loggin.info(url)
+    logging.info(url)
     # params: URL of the participant for github.
     headers = {'Accept-Encoding': 'gzip, deflate'}
     r = requests.head(url, headers=headers)
@@ -149,6 +174,9 @@ def main():
     update_devto_posts(participants)
     update_github_data(mentors)
     update_github_data(participants)
+
+    check_projects(mentors)
+    check_projects(participants)
 
     posts = collect_posts(mentors + participants)
 
