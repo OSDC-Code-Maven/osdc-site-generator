@@ -20,6 +20,12 @@
         Articles
       </a>
 
+      {% if course.projects %}
+      <a class="navbar-item" href="/{{course.id}}/projects">
+        Projects
+      </a>
+      {% endif %}
+
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">
           Participants

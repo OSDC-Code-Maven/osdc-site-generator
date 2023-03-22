@@ -1,0 +1,11 @@
+{% include 'incl/header.html' %}
+
+<h1 class="title">{{title}}</h1>
+
+{% for project in projects %}
+  <div class="columns is-mobile is-centered is-vcentered box article">
+    <a href="{{project.url}}">{{project.name}}</a>
+  </div>
+{% endfor %}
+
+{% include 'incl/footer.html' %}

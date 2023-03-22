@@ -61,27 +61,36 @@ def update_devto_posts(people):
 
 
 def check_projects(people):
+    projects = []
     for person in people:
         if 'projects' not in person:
             continue
         for url in person['projects']:
-            url_type = check_project(url)
+            url_type, name = check_project(url)
             if not url_type:
                 logging.error(f"Invalid project '{url}' by {person['name']} github='{person['github']}'")
                 exit(f"Invalid project '{url}' by {person['name']} github='{person['github']}'")
 
-def check_project(url):
-    match = re.search('^https://github.com/([^/]+)$', url)
-    if match:
-        return 'github_organization'
+            projects.append({
+                "url": url,
+                "name": name,
+            })
+    return projects
 
+def check_project(url):
     match = re.search('^https://github.com/([^/]+)/([^/]+)$', url)
     if match:
-        return 'github_repo'
+        return 'github_repo', match.group(2)
 
     match = re.search('^https://foss.heptapod.net/([^/]+)/([^/]+)$', url)
     if match:
-        return 'heptapod_repo'
+        return 'heptapod_repo', match.group(2)
+
+    match = re.search('^https://github.com/([^/]+)$', url)
+    if match:
+        return 'github_organization', match.group(1)
+
+    return None, None
 
 
 def update_github_data(people):
@@ -175,8 +184,8 @@ def main():
     update_github_data(mentors)
     update_github_data(participants)
 
-    check_projects(mentors)
-    check_projects(participants)
+    projects = check_projects(mentors)
+    projects.extend(check_projects(participants))
 
     posts = collect_posts(mentors + participants)
 
@@ -204,6 +213,15 @@ def main():
         course = course,
         title = 'Articles',
     )
+
+    render('projects.html', out_dir.joinpath('projects.html'),
+        mentors = mentors,
+        participants = participants,
+        projects = projects,
+        course = course,
+        title = 'Projects',
+    )
+
 
     render('about.html', out_dir.joinpath('about.html'),
         mentors = mentors,
