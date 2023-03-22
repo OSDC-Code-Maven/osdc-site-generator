@@ -46,6 +46,7 @@
         </div>
       </div>
 
+      {% if course.pages %}
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">
           Pages
@@ -69,6 +70,7 @@
           {% endfor %}
         </div>
       </div>
+      {% endif %}
 
 
       <a class="navbar-item" href="/{{course.id}}/about">
