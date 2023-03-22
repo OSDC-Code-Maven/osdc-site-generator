@@ -15,5 +15,27 @@ Articles: {{stats.articles}}<br>
 {% if course.projects %}Projects: {{stats.projects}}<br>{% endif %}
 
 
+<table class="table is-striped is-hoverable">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Articles</th>
+      <th>Projects</th>
+      <th>Page</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for person in participants %}
+      <tr>
+        <td><a href="/{{course.id}}/p/{{ person.github.lower() }}">{{ person.name }}</a></td>
+        <td>{{ person.posts | length }}</td>
+        <td>{{ person.projects | length }}</td>
+        <td>{% if person.github_page %}<a href="https://{{ person.github }}.github.io/">yes</a>{% endif %}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
 
 {% include 'incl/footer.html' %}
