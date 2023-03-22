@@ -9,7 +9,11 @@ Start date: {{course.start_date}}<br>
 Number of participants: {{ participants | count }}<br>
 Source code in <a href="https://github.com/osdc-code-maven/{{course.id}}">GitHub</a><br>
 Page generated at {{now}} UTC<br>
-This course is based on the syllabus of the <a href="https://osdc.code-maven.com/">Open Source Development Course</a>.
+This course is based on the syllabus of the <a href="https://osdc.code-maven.com/">Open Source Development Course</a>.<br>
+Articles: {{stats.articles}}<br>
+{% if course.github_pages %}GitHub Pages: {{stats.github_pages}}<br>{% endif %}
+{% if course.projects %}Projects: {{stats.projects}}<br>{% endif %}
+
 
 
 {% include 'incl/footer.html' %}

@@ -238,6 +238,11 @@ def generate_html(mentors, participants, posts, projects):
         mentors = mentors,
         participants = participants,
         course = course,
+        stats = {
+            "projects": len(projects),
+            "articles": len(posts),
+            "github_pages": sum([1 if person.get('github_page') else 0 for person in participants]),
+        },
         title = 'About',
         now = now,
     )
