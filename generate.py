@@ -1,16 +1,18 @@
 #!/usr/bin/env python
 
+import datetime
 import json
+import logging
 import os
 import pathlib
-from jinja2 import Environment, FileSystemLoader
-import requests
-import forem
-import github
 import time
-import datetime
-import logging
 import re
+
+import jinja2
+import requests
+
+import github
+import forem
 
 logging.basicConfig(level = logging.INFO)
 data_dir = pathlib.Path.cwd()
@@ -108,7 +110,7 @@ def update_github_data(people):
 
 def render(template, filename, **args):
     templates_dir = pathlib.Path(__file__).parent.joinpath('templates')
-    env = Environment(loader=FileSystemLoader(templates_dir), autoescape=True)
+    env = jinja2.Environment(loader=jinja2.FileSystemLoader(templates_dir), autoescape=True)
     html_template = env.get_template(template)
     html_content = html_template.render(**args)
     with open(filename, 'w') as fh:
