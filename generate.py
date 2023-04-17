@@ -104,7 +104,10 @@ def update_github_data(people):
     for person in people:
         github_id = person['github']
         if github_id not in cache:
-            cache[github_id] = github.get_user_info(github_id)
+            github_data = github.get_user_info(github_id)
+            if not github_data
+                continue
+            cache[github_id] = github_data
             time.sleep(0.2) # self imposed rate limit
         person['gh'] = cache[github_id]
     save_cache('github_people', cache)
