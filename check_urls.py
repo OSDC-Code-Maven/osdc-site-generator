@@ -9,7 +9,7 @@ LINKEDIN_URL: str = "https://www.linkedin.com/in/"
 data_dir = pathlib.Path.cwd()
 
 
-def test_urls():
+def check_urls():
     for folder in ['mentors', 'participants']:
         people = read_json_files(data_dir.joinpath(folder))
         for person in people:
@@ -25,4 +25,6 @@ def test_urls():
             if 'posts' in person:
                 for post in person['posts']:
                     assert check_github_acc_for_participant(post['url']), f"Checking {post['url']} for '{person['github']}.json'"
+
+check_urls()
 

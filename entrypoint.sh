@@ -7,7 +7,7 @@ printenv | sort
 #which bash
 
 python $root/check_json.py
-# pytest -svx $root/test_urls.py
+# python $root/check_urls.py
 
 echo "GITHUB_ACTOR=$GITHUB_ACTOR"
 # if [ "$GITHUB_ACTOR" == "" ] || [ "$GITHUB_ACTOR" == "szabgab" ];
