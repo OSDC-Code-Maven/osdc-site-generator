@@ -105,7 +105,7 @@ def update_github_data(people):
         github_id = person['github']
         if github_id not in cache:
             github_data = github.get_user_info(github_id)
-            if not github_data
+            if not github_data:
                 continue
             cache[github_id] = github_data
             time.sleep(0.2) # self imposed rate limit
