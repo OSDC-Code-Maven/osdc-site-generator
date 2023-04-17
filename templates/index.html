@@ -13,5 +13,7 @@
     <a href="p/{{person.github.lower()}}"><img width="60px" src="{{person.gh.avatar_url}}" title="{{person.name}}" alt="{{person.name}}"></a>
 {% endfor %}
 
+{{content | safe}}
+
 
 {% include 'incl/footer.html' %}

@@ -9,6 +9,7 @@ import time
 import re
 
 import jinja2
+import markdown
 import requests
 
 import github
@@ -213,10 +214,21 @@ def generate_html(mentors, participants, posts, projects):
             person = person,
         )
 
+    with open('README.md') as fh:
+        text = fh.read()
+    content = markdown.markdown(text, extensions=['tables'])
+    #content = re.sub(r'<h1>(.*?)</h1>', r'<h2 class="title">\1</h2>', content)
+    content = re.sub(r'<h1>(.*?)</h1>', r'', content)
+    content = re.sub(r'<h2>', r'<h2 class="title">', content)
+    content = re.sub(r'<ul>', r'<ul class="list is-hoverable">', content)
+    content = re.sub(r'<li>', r'<li class="list-item">', content)
+
+
     render('index.html', out_dir.joinpath('index.html'),
         mentors = mentors,
         participants = participants,
         course = course,
+        content = content,
         title = course['title'],
     )
     render('articles.html', out_dir.joinpath('articles.html'),
