@@ -11,6 +11,6 @@ pytest -svx $root/test_json.py
 # if [ "$GITHUB_ACTOR" == "" ] || [ "$GITHUB_ACTOR" == "szabgab" ];
 if [ "$GITHUB_EVENT_NAME" != "pull_request" ];
 then
-    echo "run $root/generate.py"
+    echo "not a pull-request so we run $root/generate.py"
     python $root/generate.py
 fi
