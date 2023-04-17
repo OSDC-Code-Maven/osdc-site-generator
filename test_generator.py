@@ -22,6 +22,7 @@ def test_one(name):
     pages = site.joinpath('osdc-skeleton')
     assert pages.exists()
 
+    print(pages.joinpath('about.html'))
     with pages.joinpath('about.html').open() as fh:
         html = fh.read()
     assert '<title>About</title>' in html
