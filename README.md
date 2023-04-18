@@ -72,3 +72,5 @@ cd ../osdc-skeleton
 There is a tool to verify that the CI processes are the same in all the courses as in the skeleton
 
 Another tool allows us to run generate.py on all the courses.
+
+Trigger CI
