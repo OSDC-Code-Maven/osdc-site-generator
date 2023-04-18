@@ -3,3 +3,4 @@ jinja2
 requests
 pytest
 markdown
+git+https://github.com/szabgab/capture.git
