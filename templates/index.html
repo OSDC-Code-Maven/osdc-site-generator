@@ -5,12 +5,24 @@
 <h2 class="title">Participants</h2>
 
 {% for person in participants %}
-    <a href="p/{{person.github.lower()}}"><img width="60px" src="{{person.gh.avatar_url}}" title="{{person.name}}" alt="{{person.name}}"></a>
+    <a href="p/{{person.github.lower()}}">
+      {% if person.gh %}
+        <img width="60px" src="{{person.gh.avatar_url}}" title="{{person.name}}" alt="{{person.name}}">
+      {% else %}
+        {{person.name}}
+      {% endif %}
+    </a>
 {% endfor %}
 
 <h2 class="title">Mentors</h2>
 {% for person in mentors %}
-    <a href="p/{{person.github.lower()}}"><img width="60px" src="{{person.gh.avatar_url}}" title="{{person.name}}" alt="{{person.name}}"></a>
+    <a href="p/{{person.github.lower()}}">
+      {% if person.gh %}
+        <img width="60px" src="{{person.gh.avatar_url}}" title="{{person.name}}" alt="{{person.name}}">
+      {% else %}
+        {{person.name}}
+      {% endif %}
+    </a>
 {% endfor %}
 
 {{content | safe}}

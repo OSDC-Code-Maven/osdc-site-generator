@@ -4,7 +4,9 @@
 
   <div class="columns is-mobile is-centered is-vcentered box article">
     <div class="column is-3">
-       <img  width="280px" src="{{person.gh.avatar_url}}" title="{{person.name}}" alt="{{person.name}}">
+      {% if person.gh %}
+        <img  width="280px" src="{{person.gh.avatar_url}}" title="{{person.name}}" alt="{{person.name}}">
+      {% endif %}
     </div>
     <div class="column">
       GitHub: <a href="https://github.com/{{ person['github'] }}">{{ person['github'] }}</a><br>
