@@ -1,5 +1,6 @@
 import os
 import pathlib
+import shutil
 import time
 import pytest
 import capture
@@ -7,9 +8,10 @@ import shlex
 
 
 @pytest.fixture(autouse = False, scope="function", params=["name"])
-def generate(name):
+def generate(name, tmpdir):
     image = f"osdc-test-{str(time.time())}"
     token = os.environ.get('MY_GITHUB_TOKEN')
+    shutil.copytree(os.path.join(os.getcwd(), name), os.path.join(tmpdir, name))
 
     print(f"\n-------- building docker image {image} --------------")
     exit_code = os.system(f'docker build -t {image} .')
@@ -17,7 +19,7 @@ def generate(name):
         raise Exception("Failed to build docker image")
 
     print(f"\n-------- running docker container based on {image} --------------")
-    cmd = f'docker run --rm -w /data --env MY_GITHUB_TOKEN={token} -v{os.getcwd()}/{name}:/data  {image}'
+    cmd = f'docker run --rm -w /data --env MY_GITHUB_TOKEN={token} -v{tmpdir}/{name}:/data  {image}'
     exit_code, out, err = capture.separated(shlex.split(cmd))
     print(out)
     print(err)
@@ -32,10 +34,10 @@ def generate(name):
         raise Exception("Failed to remove docker image")
 
 @pytest.mark.parametrize("name", ["test1"])
-def test_one(name, generate):
+def test_one(name, tmpdir, generate):
     print(f"in test: {generate}")
     assert generate['exit_code'] == 0
-    root = pathlib.Path(name)
+    root = pathlib.Path(tmpdir).joinpath(name)
     site = root.joinpath('_site')
     assert site.exists()
     assert site.joinpath('index.html').exists()
