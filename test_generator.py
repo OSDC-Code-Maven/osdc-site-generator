@@ -2,19 +2,39 @@ import os
 import pathlib
 import time
 import pytest
+import capture
+import shlex
 
 
-@pytest.fixture(autouse = True, scope="function", params=["name"])
+@pytest.fixture(autouse = False, scope="function", params=["name"])
 def generate(name):
     image = f"osdc-test-{str(time.time())}"
-    os.system(f'docker build -t {image} .')
     token = os.environ.get('MY_GITHUB_TOKEN')
-    os.system(f'docker run --rm -w /data --env MY_GITHUB_TOKEN={token} -v{os.getcwd()}/{name}:/data  {image}')
-    yield
-    os.system(f'docker rmi {image}')
+
+    print(f"\n-------- building docker image {image} --------------")
+    exit_code = os.system(f'docker build -t {image} .')
+    if exit_code != 0:
+        raise Exception("Failed to build docker image")
+
+    print(f"\n-------- running docker container based on {image} --------------")
+    cmd = f'docker run --rm -w /data --env MY_GITHUB_TOKEN={token} -v{os.getcwd()}/{name}:/data  {image}'
+    exit_code, out, err = capture.separated(shlex.split(cmd))
+    print(out)
+    print(err)
+    #if exit_code != 0:
+    #    raise Exception("Failed to run the docker")
+
+    yield {"exit_code": exit_code, "out": out, "err": err}
+
+    print(f"\n--------removing docker image {image}")
+    exit_code = os.system(f'docker rmi {image}')
+    if exit_code != 0:
+        raise Exception("Failed to remove docker image")
 
 @pytest.mark.parametrize("name", ["test1"])
-def test_one(name):
+def test_one(name, generate):
+    print(f"in test: {generate}")
+    assert generate['exit_code'] == 0
     root = pathlib.Path(name)
     site = root.joinpath('_site')
     assert site.exists()
@@ -35,3 +55,11 @@ def test_one(name):
     with pages.joinpath('p/szabgab.html').open() as fh:
         html = fh.read()
     assert 'GitHub page of <a href="https://Szabgab.github.io/">Gabor Szabo</a><br>' in html
+
+@pytest.mark.parametrize("name", ["test2"])
+def test_two(name, generate):
+    print(f"in test: {generate}")
+    assert generate["exit_code"] == 1
+    assert "ERROR: Exception: value of github fields 'other-demo' is not the same as the filename 'cm-demo.json'" in generate["err"]
+    assert "There were 1 errors" in generate["err"]
+
