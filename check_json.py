@@ -25,22 +25,22 @@ def check_json():
             for field in person.keys():
                 if field != field.lower():
                     _error(f"Field '{field}' in file '{person['github']}.json'  is not lower case")
-                    error += 1
+                    errors += 1
 
                 if field not in VALID_FIELDS:
                     _error(f"Field '{field}' in file '{person['github']}.json'  is not in the list of VALID_FIELDS")
-                    error += 1
+                    errors += 1
 
                 if person[field] == "":
                     _error(f"Field '{field}' in file '{person['github']}.json' is empty")
-                    error += 1
+                    errors += 1
 
                 for field in ['linkedin', 'github', 'gitlab', 'devto']:
                     if field in person:
                         match = re.search(r'^[a-zA-Z0-9-.]+$', person[field])
                         if not match:
                             _error(f"Invalid format for '{field}'='{person[field]}' in file '{person['github']}.json'")
-                            error += 1
+                            errors += 1
 
             if 'posts' in person:
                 if person['posts'].__class__.__name__ != 'list':
