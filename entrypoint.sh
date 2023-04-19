@@ -2,7 +2,7 @@
 set -ex
 
 root=$(dirname $0)
-printenv | sort
+#printenv | sort
 #ls -l /usr/bin/
 #which bash
 
