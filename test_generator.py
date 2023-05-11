@@ -3,7 +3,7 @@ import pathlib
 import shutil
 import time
 import pytest
-import capture
+import capturecli
 import shlex
 
 
@@ -20,7 +20,7 @@ def generate(name, tmpdir):
 
     print(f"\n-------- running docker container based on {image} --------------")
     cmd = f'docker run --rm -w /data --env MY_GITHUB_TOKEN={token} -v{tmpdir}/{name}:/data  {image}'
-    exit_code, out, err = capture.separated(shlex.split(cmd))
+    exit_code, out, err = capturecli.separated(shlex.split(cmd))
     print(out)
     print(err)
     #if exit_code != 0:
