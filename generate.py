@@ -223,8 +223,8 @@ def generate_html(mentors, participants, posts, projects):
     #content = re.sub(r'<h1>(.*?)</h1>', r'<h2 class="title">\1</h2>', content)
     content = re.sub(r'<h1>(.*?)</h1>', r'', content)
     content = re.sub(r'<h2>', r'<h2 class="title">', content)
-    content = re.sub(r'<ul>', r'<ul class="list is-hoverable">', content)
-    content = re.sub(r'<li>', r'<li class="list-item">', content)
+    #content = re.sub(r'<ul>', r'<ul class="list is-hoverable">', content)
+    #content = re.sub(r'<li>', r'<li class="list-item">', content)
 
 
     render('index.html', out_dir.joinpath('index.html'),
