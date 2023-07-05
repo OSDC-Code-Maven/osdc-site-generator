@@ -127,11 +127,14 @@ def read_json_files(folder):
         if filename == '.gitkeep':
             continue
         if not filename.endswith('.json'):
-           raise JsonError("file does not end with .json")
+           raise JsonError(f"file {filename} does not end with .json")
         if filename != filename.lower():
             raise Exception(f"filename {filename} should be all lower-case")
         with folder.joinpath(filename).open() as fh:
-            person = json.load(fh)
+            try:
+                person = json.load(fh)
+            except Exception as err:
+                raise Exception(f"file {filename} failed to load: {repr(err)}")
 
         if 'github' not in person:
             raise Exception(f"github field is missing from {filename}")
