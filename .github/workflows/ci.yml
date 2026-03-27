@@ -16,7 +16,7 @@ jobs:
     name: Test HTML generator
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v6
 
     - name: install requirements
       run: pip install -r requirements.txt -c constraints.txt
